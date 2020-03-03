@@ -14,3 +14,6 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+//se crea una ruta de tipo resource para hacer un grupo de rutas de recursos con las peticiones index,create,show,edit,update,destroy
+Route::resource('almacen/categoria','CategoriaController'); //cuando se ingrese a la ruta almacen/categoria se va a llamar al controlador CategoriaController
