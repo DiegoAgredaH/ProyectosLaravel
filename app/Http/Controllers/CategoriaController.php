@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 //Agregamos
 use App\Categoria;//es el modelo que creamos
 use Illuminate\Support\Facades\Redirect;//sirve para hacer algunas redirecciones
-use App\Http\Request\CategoriaFormRequest;//Es donde estan las restricciones de nuestro formulario
+use App\Http\Requests\CategoriaFormRequest;//Es donde estan las restricciones de nuestro formulario
 use DB;//agregamos el espacio de nombres DB para trabajar con la clase DB de laravel
 
 class CategoriaController extends Controller
@@ -69,6 +69,7 @@ class CategoriaController extends Controller
     }
 
     //definimos el metodo update para actualizar, recibe 2 parametros un objeto llamado 'request' de tipo CategoriaFormRequest y un 'id' de la categoria que quiero modificar
+   
     public function update(CategoriaFormRequest $request,$id){
         $categoria=Categoria::findOrFail($id); //'categoria' hace referencia al modelo Categoria y con la funcion findOrFail se le envia la categoria que quiero modificar por medio del 'id'
         $categoria->nombre=$request->get('nombre'); // en el espacio 'nombre' de el objeto 'categoria' se va a almacenar lo que esta en el objeto 'request' en el espacio 'nombre' el cual lo va a obtener mediante el metodo get 
