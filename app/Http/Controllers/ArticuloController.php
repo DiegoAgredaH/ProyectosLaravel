@@ -5,9 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 //Agregamos
+
 use App\Articulo;//es el modelo que creamos
 use Illuminate\Support\Facades\Redirect;//sirve para hacer algunas redirecciones
-use Illuminate\Support\Facades\Input;//sirve para poder subir la imagen desde la maquina del cliente
+//use Illuminate\Support\Facades\Input;//sirve para poder subir la imagen desde la maquina del cliente este solo sirve para versiones anteriores a laravel 5
 use App\Http\Requests\ArticuloFormRequest;//Es donde estan las restricciones de nuestro formulario
 use DB;//agregamos el espacio de nombres DB para trabajar con la clase DB de laravel
 
@@ -35,6 +36,7 @@ class ArticuloController extends Controller
             ->join('categoria as c','a.idcategoria','=','c.idcategoria')//la tabla articulo esta relacionada con la tabla categoria que tiene el alias 'c' donde el idcategoria de la tabla articulo sea igual al idcategoria de la tabla categoria
             ->select('a.idarticulo','a.nombre','a.codigo','a.stock','c.nombre as categoria','a.descripcion','a.imagen','a.estado')
             ->where('a.nombre','LIKE','%'.$query.'%')
+            ->orwhere('a.codigo','LIKE','%'.$query.'%')//or where sirve para que busque por nombre o por codigo
             ->orderBy('a.idarticulo','desc')
             ->paginate(7);//para que la paginacion sea de 7 en 7 registros
 
@@ -46,7 +48,7 @@ class ArticuloController extends Controller
 
     public function create(){
         $categorias=DB::table('categoria')->where('condicion','=','1')->get();//para enviarle el listado de las categorias para poder mostrarlas en un combo box pero solo aquellas que estan activas osea que en condicion tengan el valor 1
-        return view("almacen.categoria.create",["categorias"=>$categorias]);//le enviamos el parametro "categorias" que es lo que esta en la variable $categorias
+        return view("almacen.articulo.create",["categorias"=>$categorias]);//le enviamos el parametro "categorias" que es lo que esta en la variable $categorias
     }
 
     /*definimos el metodo store para almacenar nuestro objeto de modelo categoria en la tabla categoria de la base de datos,
@@ -61,14 +63,16 @@ class ArticuloController extends Controller
         $articulo->descripcion=$request->get('descripcion');
         $articulo->estado='Activo';//en el atributo 'estado' se asigna Activo 
         //lo siguiente es para validar la imagen que el cliente quiere subir al servidor
-        if (Input::hasFile('imagen')){ //si no esta vacio el objeto 'imagen' del formulario siga 
-            $file=Input::file('imagen');//en file se guardara la imagen que tengo en el objeto del formulario llamado 'imagen'
+        if ($request->hasFile('imagen')){ //si no esta vacio el objeto 'imagen' del formulario siga 
+            $file=$request->file('imagen');//en file se guardara la imagen que tengo en el objeto del formulario llamado 'imagen'
             $file->move(public_path().'/imagenes/articulos/',$file->getClientOriginalName());//nuestro archivo lo vamos a mover a la acrpeta public y dentro de ella voy a crear otra carpeta llamada imagenes y una subcarpeta llamada articulos y ahi se movera la imagen que esta en $file con el metodo getClienOriginalName para establecer el nombre de ese archivo que estoy moviendo
             $articulo->imagen=$file->getClientOriginalName();//en nuestro objeto articulo en el atributo imagen le enviamos el nombre que se le asigno con el metodo getOriginalName
         }
         $articulo->save();//guarda el objeto categoria
         return Redirect::to('almacen/articulo');//para que despues de almacenar nos redireccione a la vista articulo.
     }
+
+ 
 
     //definimos el metodo show para mostrar, recibe un parametro que es el id del articulo que quiero mostrar
     public function show($id){
@@ -92,8 +96,8 @@ class ArticuloController extends Controller
         $articulo->stock=$request->get('stock');
         $articulo->descripcion=$request->get('descripcion');
         //lo siguiente es para validar la imagen que el cliente quiere subir al servidor
-        if (Input::hasFile('imagen')){ //si no esta vacio el objeto 'imagen' del formulario siga 
-            $file=Input::file('imagen');//en file se guardara la imagen que tengo en el objeto del formulario llamado 'imagen'
+        if ($request->hasFile('imagen')){ //si no esta vacio el objeto 'imagen' del formulario siga 
+            $file=$request->file('imagen');//en file se guardara la imagen que tengo en el objeto del formulario llamado 'imagen'
             $file->move(public_path().'/imagenes/articulos/',$file->getClientOriginalName());//nuestro archivo lo vamos a mover a la acrpeta public y dentro de ella voy a crear otra carpeta llamada imagenes y una subcarpeta llamada articulos y ahi se movera la imagen que esta en $file con el metodo getClienOriginalName para establecer el nombre de ese archivo que estoy moviendo
             $articulo->imagen=$file->getClientOriginalName();//en nuestro objeto articulo en el atributo imagen le enviamos el nombre que se le asigno con el metodo getOriginalName
         }
@@ -103,9 +107,9 @@ class ArticuloController extends Controller
 
     //definimos el metodo destroy para que no se muestre un articulo en el listado de articulos, recibimos como parametro el id del articulo que queremos que no se muestre
     public function destroy($id){
-        $articulo=Articulo::findOrFail($id);//'categoria' hace referencia al modelo Categoria y con la funcion findOrFail se le envia la categoria que quiero que no se muestre por medio del 'id'
-        $articulo->estado='Inactivo'; //el atributo 'condicion' de nuestro objeto va a ser 0 para que no se muestre en el metodo index ya que solo muestra los que tienen el valor 1
-        $categoria->update();// llamamos al metodo update para actualizar el objeto 'articulo'
+        $articulo=Articulo::findOrFail($id);//'ariculo' hace referencia al modelo Articulo y con la funcion findOrFail se le envia la categoria que quiero que no se muestre por medio del 'id'
+        $articulo->estado='Inactivo'; //el atributo 'estado' de nuestro objeto va a ser Iactivo
+        $articulo->update();// llamamos al metodo update para actualizar el objeto 'articulo'
         return Redirect::to('almacen/articulo');// redirigimos a la vista articulo
     }
 }

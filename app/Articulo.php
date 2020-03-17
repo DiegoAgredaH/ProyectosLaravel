@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Categoria extends Model
+class Articulo extends Model
 {
     protected $table='articulo';  // hace referencia a la tabla articulo de la base de datos dbsistemaventas
     protected $primaryKey='idarticulo'; // define la llave primaria del modelo
