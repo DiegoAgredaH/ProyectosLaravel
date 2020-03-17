@@ -19,3 +19,5 @@ Route::get('/', function () {
 Route::resource('almacen/categoria','CategoriaController'); //cuando se ingrese a la ruta almacen/categoria se va a llamar al controlador CategoriaController
 Route::resource('almacen/articulo','ArticuloController'); //cuando se ingrese a la ruta almacen/articulo se va a llamar al controlador ArticuloController
 Route::resource('ventas/cliente','ClienteController'); //cuando se ingrese a la ruta ventas/cliente se va a llamar al controlador ClienteController
+Route::resource('compras/proveedor','ProveedorController');
+Route::resource('/','CategoriaController');
