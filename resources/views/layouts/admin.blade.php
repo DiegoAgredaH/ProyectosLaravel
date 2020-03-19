@@ -7,7 +7,8 @@
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.5 -->
-    <link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}"> <!-- asset para que coja las cosas desde la carpeta public
+    <link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}"> <!-- asset para que coja las cosas desde la carpeta public -->
+    <link rel="stylesheet" href="{{asset('css/bootstrap-select.min.css')}}"><!-- Para bootstrap select-->
     <!-- Font Awesome -->
     <link rel="stylesheet" href="{{asset('css/font-awesome.css')}}">
     <!-- Theme style -->
@@ -200,8 +201,10 @@
       
     <!-- jQuery 2.1.4 -->
     <script src="{{asset('js/jQuery-2.1.4.min.js')}}"></script>
+    @stack('scripts')<!-- sirve para poder agregar codigo javascript en cualquiera de las vistas  entonces todas las plantillas que extienden a admin.blade.php aqui pueden usar scripts cuando se haga uso el nombre 'scripts'-->
     <!-- Bootstrap 3.3.5 -->
     <script src="{{asset('js/bootstrap.min.js')}}"></script>
+    <script src="{{asset('js/bootstrap-select.min.js')}}"></script><!-- Para que me coja bootstarp select-->
     <!-- AdminLTE App -->
     <script src="{{asset('js/app.min.js')}}"></script>
     

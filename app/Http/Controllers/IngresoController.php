@@ -32,10 +32,10 @@ class IngresoController extends Controller
             $ingresos=DB::table('ingreso as i')
             ->join('persona as p','i.idproveedor','=','p.idpersona')//une la tabla ingreso con la tabla persona que tiene alias p y une ambas tablas por medio de idproveedor de la tabla ingreso que tiene que ser igual a idpersona de la tabla persona
             ->join('detalle_ingreso as di','i.idingreso','=','di.idingreso')//a la anterior union le unimos tambien la tabla detalle_ingreso que tiene el alias di y van a estar unidas por medio de idingreso de la tabla ingreso y idingreso de la tabla detalle_ingreso
-            ->select('i.idingreso','i.fecha_hora','p.nombre','i.tipo_comprobante','i.serie_comprobante','i.num_comprobante','i.impuesto',DB::raw('sum(di.cantidad*precio_compra) as total'))//DB::raw('sum(di.cantidad*precio_compra) as total quiere decir que de la base de adtos a traves del metodo raw voy a sumar la multiplicacion de la cantidad * precio_compra de la tabla detalle ingreso y lo voy a guardar en una variable llamada total
+            ->select('i.idingreso','i.fecha_hora','p.nombre','i.tipo_comprobante','i.serie_comprobante','i.num_comprobante','i.impuesto','i.estado',DB::raw('sum(di.cantidad*precio_compra) as total'))//DB::raw('sum(di.cantidad*precio_compra) as total quiere decir que de la base de adtos a traves del metodo raw voy a sumar la multiplicacion de la cantidad * precio_compra de la tabla detalle ingreso y lo voy a guardar en una variable llamada total
             ->where('i.num_comprobante','LIKE','%'.$query.'%')
             ->orderBy('i.idingreso','desc')
-            ->groupBy('i.idingreso','i.fecha_hora','p.nombre','i.tipo_comprobante','i.serie_comprobante','i.num_comprobante','i.impuesto')
+            ->groupBy('i.idingreso','i.fecha_hora','p.nombre','i.tipo_comprobante','i.serie_comprobante','i.num_comprobante','i.impuesto','i.estado')
             ->paginate(7);
             /* retornara la vista index a la cual se le enviara los parametros que estan entre "" en ingresos iran 
             todos los ingresos y en searchText irá el texto de busqueda  */
@@ -99,8 +99,9 @@ class IngresoController extends Controller
         $ingreso=DB::table('ingreso as i')
         ->join('persona as p','i.idproveedor','=','p.idpersona')//une la tabla ingreso con la tabla persona que tiene alias p y une ambas tablas por medio de idproveedor de la tabla ingreso que tiene que ser igual a idpersona de la tabla persona
         ->join('detalle_ingreso as di','i.idingreso','=','di.idingreso')//a la anterior union le unimos tambien la tabla detalle_ingreso que tiene el alias di y van a estar unidas por medio de idingreso de la tabla ingreso y idingreso de la tabla detalle_ingreso
-        ->select('i.idingreso','i.fecha_hora','p.nombre','i.tipo_comprobante','i.serie_comprobante','i.num_comprobante','i.impuesto',DB::raw('sum(di.cantidad*precio_compra) as total'))//DB::raw('sum(di.cantidad*precio_compra) as total quiere decir que de la base de adtos a traves del metodo raw voy a sumar la multiplicacion de la cantidad * precio_compra de la tabla detalle ingreso y lo voy a guardar en una variable llamada total
+        ->select('i.idingreso','i.fecha_hora','p.nombre','i.tipo_comprobante','i.serie_comprobante','i.num_comprobante','i.impuesto','i.estado',DB::raw('sum(di.cantidad*precio_compra) as total'))//DB::raw('sum(di.cantidad*precio_compra) as total quiere decir que de la base de adtos a traves del metodo raw voy a sumar la multiplicacion de la cantidad * precio_compra de la tabla detalle ingreso y lo voy a guardar en una variable llamada total
         ->where('i.idingreso','=',$id)
+        ->groupBy('i.idingreso','i.fecha_hora','p.nombre','i.tipo_comprobante','i.serie_comprobante','i.num_comprobante','i.impuesto','i.estado')
         ->first();//para que elija el primero que cumpla con la condicion del where
 
         $detalles=DB::table('detalle_ingreso as d')
