@@ -21,3 +21,4 @@ Route::resource('almacen/articulo','ArticuloController'); //cuando se ingrese a 
 Route::resource('ventas/cliente','ClienteController'); //cuando se ingrese a la ruta ventas/cliente se va a llamar al controlador ClienteController
 Route::resource('compras/proveedor','ProveedorController');
 Route::resource('compras/ingreso','IngresoController');
+Route::resource('ventas/venta','VentaController');
