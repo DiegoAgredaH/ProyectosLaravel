@@ -19,7 +19,7 @@ class VentaController extends Controller
 {
     //declaramos el constructor
     public function __construct(){
-
+        $this->middleware('auth');//para que no me permita entrar a la url de cada vista sin antes haberme logueado
     }
 
     public function index(Request $request){

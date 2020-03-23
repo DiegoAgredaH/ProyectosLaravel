@@ -70,4 +70,8 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
         ]);
     }
+
+    public function showRegistrationForm(){ //sirve para desabiliotar el registrar predeterminado de laravel 
+        return redirect('login');//cuando intente acceder al formulario de registro voy a redireccionar de nuevo a login
+    }
 }

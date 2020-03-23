@@ -86,7 +86,7 @@
                         <button type="button" id="bt_add" class="btn btn-primary">Agregar</button>
                     </div>    
                 </div>
-                <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+                <div class="table-responsive col-lg-12 col-sm-12 col-md-12 col-xs-12">
                     <table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
                         <thead style="background-color:#A9D0F5">
                             <th>Opciones</th>

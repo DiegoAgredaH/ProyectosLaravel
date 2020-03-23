@@ -14,7 +14,7 @@ class ProveedorController extends Controller
 {
     //declaramos el constructor
     public function __construct(){
-
+        $this->middleware('auth');//para que no me permita entrar a la url de cada vista sin antes haberme logueado
     }
 
     //definimos el metodo index para mostrar la pagina inicial

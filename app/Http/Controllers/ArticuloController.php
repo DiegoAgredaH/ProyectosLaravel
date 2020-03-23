@@ -15,7 +15,7 @@ use DB;//agregamos el espacio de nombres DB para trabajar con la clase DB de lar
 class ArticuloController extends Controller
 {
     public function __construct(){
-
+        $this->middleware('auth');//para que no me permita entrar a la url sin antes haberme logueado
     }
 
     //definimos el metodo index para mostrar la pagina inicial
